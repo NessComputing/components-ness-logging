@@ -27,7 +27,7 @@ public class TestConfigureStandaloneLogging
     @Test
     public void configureLogging()
     {
-    	final URL url = ConfigureStandaloneLogging.configure();
+        final URL url = ConfigureStandaloneLogging.configure();
 
         Assert.assertTrue(url.toString().startsWith("file:/"));
         Assert.assertTrue(url.toString().endsWith("/config/log4j-standalone.xml"));
@@ -36,8 +36,12 @@ public class TestConfigureStandaloneLogging
     @Test
     public void configureDefaultLogging()
     {
-    	final URL url = ConfigureStandaloneLogging.configure(null);
-    	Assert.assertNull(url);
+        final URL url = ConfigureStandaloneLogging.configure(null);
+        if (url != null) {
+            Assert.assertEquals("jar", url.getProtocol());
+            Assert.assertTrue(url.getPath().contains("com/nesscomputing/testing/ness-log4j-config"));
+            Assert.assertTrue(url.getPath().endsWith(".jar!/log4j.xml"));
+        }
     }
 
     @Test

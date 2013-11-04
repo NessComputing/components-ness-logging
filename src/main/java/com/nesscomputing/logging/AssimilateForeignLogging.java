@@ -31,8 +31,6 @@ import org.slf4j.bridge.SLF4JBridgeHandler;
  */
 public final class AssimilateForeignLogging
 {
-    private static final Log LOG = Log.findLog();
-
     private static final String AUTO_ASSIMILATE_PROPERTY = "ness.log.assimilate";
 
     @GuardedBy("AssimilateForeignLogging.class")
@@ -63,7 +61,7 @@ public final class AssimilateForeignLogging
         }
 
         SLF4JBridgeHandler.install();
-        LOG.info("java.util.logging was assimilated.");
+        Log.forClass(AssimilateForeignLogging.class).info("java.util.logging was assimilated.");
     }
 
     /**
@@ -80,7 +78,7 @@ public final class AssimilateForeignLogging
      */
     public static void automaticAssimilationHook()
     {
-        if (System.getProperty(AUTO_ASSIMILATE_PROPERTY) != null)
+        if (Boolean.getBoolean(AUTO_ASSIMILATE_PROPERTY))
         {
             assimilate();
         }
